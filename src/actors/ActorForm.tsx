@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 
 export default function ActorForm(props: actorFormProps) {
   return (
+    
     <Formik 
         initialValues={props.model} 
         onSubmit={props.onSubmit}
