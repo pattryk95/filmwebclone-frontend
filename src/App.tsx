@@ -10,21 +10,22 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import IndexGenres from "./genres/IndexGenres";
 import LandingPage from "./movies/LandingPage";
 import routes from "./route-config";
+import configureValidations from "./validation";
+
+configureValidations();
 
 function App() {
-  
-
   return (
     <>
       <BrowserRouter>
         <Menu />
         <div className="container">
           <Switch>
-            {routes.map(route=>
+            {routes.map((route) => (
               <Route key={route.path} path={route.path} exact={route.exact}>
-                <route.component/>
+                <route.component />
               </Route>
-              )}
+            ))}
           </Switch>
         </div>
       </BrowserRouter>
