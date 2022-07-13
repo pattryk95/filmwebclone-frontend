@@ -8,6 +8,7 @@ export default function EditActor() {
         model={{
           name: "Ewan McGregor",
           dateOfBirth: new Date("1996-06-01T:00:00:00"),
+          pictureURL: 'https://sm.ign.com/ign_pl/image/j/justice-le/justice-league-dark-movie-casting-rumors_8xhh.jpg'
         }}
         onSubmit={(values) => console.log(values)}
       />
