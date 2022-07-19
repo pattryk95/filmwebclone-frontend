@@ -17,7 +17,9 @@ export default function CreateMovie()
         nonSelectedGenres={nonSelectedGenres}
         selectedGenres={[]}
         nonSelectedMovieTheaters={nonSelectedMovieTheaters}
-        selectedMovieTheaters={[]} />
+        selectedMovieTheaters={[]}
+        selectedActors={[]}
+      />
     </>
   );
 }
