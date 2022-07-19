@@ -1,3 +1,4 @@
+import { actorMovieDTO } from "../actors/actors.model";
 import { genreDTO } from "../genres/genres.model";
 import { movieTheaterDTO } from "../movietheaters/movieTheater.model";
 import MovieForm from "./MovieForm";
@@ -13,6 +14,9 @@ export default function EditMovie()
   const selectedMovieTheaters: movieTheaterDTO[] =
     [{ id: 1, name: 'Warsaw' }]
 
+  const selectedActors: actorMovieDTO[] = [{
+    id: 1, name: 'Ewan McGregor', character: 'Obi-Wan Kenobi', picture: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQIIUCug0cluUJPxTvs2BjRSWXL5civuHUqbflF1cxc5vx47ZHS'
+  }]
   return (
     <>
       <h3>Edit Movie</h3>
@@ -28,7 +32,7 @@ export default function EditMovie()
         nonSelectedGenres={nonSelectedGenres}
         selectedMovieTheaters={selectedMovieTheaters}
         nonSelectedMovieTheaters={nonSelectedMovieTheaters}
-        selectedActors={[]}
+        selectedActors={selectedActors}
       />
     </>
   );

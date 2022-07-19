@@ -14,7 +14,8 @@ import configureValidations from "./validation";
 
 configureValidations();
 
-function App() {
+function App()
+{
   return (
     <>
       <BrowserRouter>
@@ -28,6 +29,11 @@ function App() {
             ))}
           </Switch>
         </div>
+        <footer className="bd-footer py-5 mt-5 bg-light">
+          <div className="container">
+            FilmwebClone {new Date().getUTCFullYear().toString()}
+          </div>
+        </footer>
       </BrowserRouter>
     </>
   );
