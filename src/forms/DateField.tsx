@@ -1,6 +1,7 @@
 import { useFormikContext } from "formik";
 
-export default function DateField(props: dateFieldProps) {
+export default function DateField(props: dateFieldProps)
+{
   const { values, validateForm, touched, errors } = useFormikContext<any>();
   return (
     <div className="mb-3">
@@ -10,10 +11,13 @@ export default function DateField(props: dateFieldProps) {
         className="form-control"
         id={props.field}
         name={props.field}
-        defaultValue={values[props.field]?.toLocaleDateString("en-US")}
-        onChange={(e) => {
+        defaultValue={values[props.field]?.toISOString().slice(0, 10)}
+        // defaultValue={values[props.field]?.toLocaleDateString()}
+        onChange={(e) =>
+        {
           const date = new Date(e.currentTarget.value + "T00:00:00");
           values[props.field] = date;
+          console.log(values[props.field])
           validateForm();
         }}
       />
@@ -24,7 +28,8 @@ export default function DateField(props: dateFieldProps) {
   );
 }
 
-interface dateFieldProps {
+interface dateFieldProps
+{
   field: string;
   displayName: string;
 }

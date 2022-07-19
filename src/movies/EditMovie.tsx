@@ -1,6 +1,7 @@
 import MovieForm from "./MovieForm";
 
-export default function EditMovie() {
+export default function EditMovie()
+{
   return (
     <>
       <h3>Edit Movie</h3>
@@ -9,7 +10,7 @@ export default function EditMovie() {
           title: "Star Wars Rebels",
           inTheaters: false,
           trailer: "url",
-          releaseDate: new Date("2019-01-01T00:00:00"),
+          releaseDate: new Date("2014-08-11"),
         }}
         onSubmit={(values) => console.log(values)}
       />

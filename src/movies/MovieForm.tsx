@@ -33,12 +33,15 @@ export default function MovieForm(props: movieFormProps)
             imageURL={props.model.posterURL}
           />
 
-          {/* <MultipleSelector 
-  displayName="Genres"
-  nonSelected={[]}
-  selected={[]}
-  onChange={(selected, nonSelected)}
-/> */}
+          <MultipleSelector
+            displayName="Genres"
+            nonSelected={[]}
+            selected={[]}
+            onChange={(selected, nonSelected) =>
+            {
+
+            }}
+          />
 
           <Button disabled={formikProps.isSubmitting} type="submit">
             Save Changes
