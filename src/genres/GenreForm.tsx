@@ -5,7 +5,8 @@ import * as Yup from "yup";
 import TextField from "../forms/TextField";
 import { genreCreationDTO } from "./genres.model";
 
-export default function GenreForm(props: genreFormProps) {
+export default function GenreForm(props: genreFormProps)
+{
   return (
     <Formik
       initialValues={props.model}
@@ -13,6 +14,7 @@ export default function GenreForm(props: genreFormProps) {
       validationSchema={Yup.object({
         name: Yup.string()
           .required("This field is required")
+          .max(50, 'Max length is 50 characters')
           .firstLetterUppercase(),
       })}
     >
@@ -30,7 +32,8 @@ export default function GenreForm(props: genreFormProps) {
     </Formik>
   );
 }
-interface genreFormProps {
+interface genreFormProps
+{
   model: genreCreationDTO;
   onSubmit(
     values: genreCreationDTO,
