@@ -1,6 +1,7 @@
 import ActorForm from "./ActorForm";
 
-export default function EditActor() {
+export default function EditActor()
+{
   return (
     <>
       <h3>Edit Actor</h3>
