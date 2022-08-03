@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlGenres } from "../endpoints";
 import Button from "../utils/Button";
+import customConfirm from "../utils/customConfirm";
 import GenericList from "../utils/GenericList";
 import Pagination from "../utils/Pagination";
 import RecordsPerPage from "../utils/RecordsPerPageSelect";
@@ -17,6 +18,12 @@ export default function IndexGenres()
 
     useEffect(() =>
     {
+        loadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageNumber, recordsPerPage]);
+
+    function loadData()
+    {
         axios.get(urlGenres, {
             params: { pageNumber, recordsPerPage }
         })
@@ -27,7 +34,23 @@ export default function IndexGenres()
                 setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage))
                 setGenres(response.data);
             })
-    }, [pageNumber, recordsPerPage])
+    }
+
+
+    async function deleteGenre(id: number)
+    {
+        try
+        {
+            await axios.delete(`${urlGenres}/${id}`);
+            loadData();
+        } catch (error: any)
+        {
+            if (error && error.response)
+            {
+                console.error(error.response.data);
+            }
+        }
+    }
 
     return (
         <>
@@ -56,7 +79,9 @@ export default function IndexGenres()
                                 <td>
                                     <Link className="btn btn-success"
                                         to={`/genres/edit/${genre.id}`}>Edit</Link>
-                                    <Button className="btn btn-danger">Delete</Button>
+                                    <Button
+                                        onClick={() => customConfirm(() => deleteGenre(genre.id))}
+                                        className="btn btn-danger">Delete</Button>
                                 </td>
                                 <td>
                                     {genre.name}
