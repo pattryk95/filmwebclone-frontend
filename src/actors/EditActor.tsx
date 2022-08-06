@@ -7,7 +7,9 @@ export default function EditActor()
       <h3>Edit Actor</h3>
       <ActorForm
         model={{
-          name: "Ewan McGregor",
+          firstName: "Ewan",
+          middleName: "",
+          lastName: "McGregor",
           dateOfBirth: new Date("1996-06-01T:00:00:00"),
           biography: `# Something
 This person was born in *DR*`,

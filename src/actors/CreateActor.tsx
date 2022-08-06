@@ -38,8 +38,9 @@ export default function CreateActor()
       <h3>Create Actor</h3>
       <DisplayErrors errors={errors} />
       <ActorForm
-        model={{ name: "", dateOfBirth: undefined }}
-        onSubmit={async values => await create(values)}
+        model={{ firstName: "", middleName: "", lastName: "", dateOfBirth: undefined }}
+        onSubmit={async values => await create(values)
+        }
       />
     </>
   );

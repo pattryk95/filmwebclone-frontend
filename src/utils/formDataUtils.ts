@@ -3,7 +3,12 @@ import { actorCreationDTO } from "../actors/actors.model";
 export function converActorToFormData(actor: actorCreationDTO): FormData {
   const formData = new FormData();
 
-  formData.append("name", actor.name);
+  formData.append("firstName", actor.firstName);
+  if (actor.middleName) {
+    formData.append("middleName", actor.middleName);
+  }
+
+  formData.append("lastName", actor.lastName);
 
   if (actor.biography) {
     formData.append("biography", actor.biography);
