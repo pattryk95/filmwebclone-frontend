@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { urlActors } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
-import { converActorToFormData } from "../utils/formDataUtils";
+import { convertActorToFormData } from "../utils/formDataUtils";
 import ActorForm from "./ActorForm";
 import { actorCreationDTO } from "./actors.model";
 
@@ -16,7 +16,7 @@ export default function CreateActor()
   {
     try
     {
-      const formData = converActorToFormData(actor)
+      const formData = convertActorToFormData(actor)
 
       await axios({
         method: 'POST',

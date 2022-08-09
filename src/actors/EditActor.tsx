@@ -1,22 +1,43 @@
+import { urlActors } from "../endpoints";
+import EditEntity from "../utils/EditEntity";
 import ActorForm from "./ActorForm";
+import { convertActorToFormData } from "../utils/formDataUtils";
+import { actorCreationDTO, actorDTO } from "./actors.model";
 
 export default function EditActor()
 {
+  function transform(actor: actorDTO): actorCreationDTO
+  {
+    return {
+      firstName: actor.firstName,
+      middleName: actor.middleName ?? "",
+      lastName: actor.lastName,
+      biography: actor.biography ?? "",
+      dateOfBirth: new Date(actor.dateOfBirth)
+
+    }
+  }
+
   return (
     <>
-      <h3>Edit Actor</h3>
-      <ActorForm
-        model={{
-          firstName: "Ewan",
-          middleName: "",
-          lastName: "McGregor",
-          dateOfBirth: new Date("1996-06-01T:00:00:00"),
-          biography: `# Something
-This person was born in *DR*`,
-          pictureURL: 'https://sm.ign.com/ign_pl/image/j/justice-le/justice-league-dark-movie-casting-rumors_8xhh.jpg'
-        }}
-        onSubmit={(values) => console.log(values)}
-      />
+      <EditEntity<actorCreationDTO, actorDTO>
+        url={urlActors}
+        indexURL="/actors"
+        entityName="Actor"
+        transformFormData={convertActorToFormData}
+        transform={transform}
+      >
+        {
+          (entity, edit) =>
+            <ActorForm
+              model={entity}
+              onSubmit={async values =>
+              {
+                await edit(values)
+              }}
+            />
+        }
+      </EditEntity >
     </>
   );
 }

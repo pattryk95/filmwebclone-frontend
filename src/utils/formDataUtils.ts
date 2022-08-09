@@ -1,6 +1,6 @@
 import { actorCreationDTO } from "../actors/actors.model";
 
-export function converActorToFormData(actor: actorCreationDTO): FormData {
+export function convertActorToFormData(actor: actorCreationDTO): FormData {
   const formData = new FormData();
 
   formData.append("firstName", actor.firstName);
