@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { urlMovieTheater } from "../endpoints";
+import { urlMovieTheaters } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { movieTheaterCreationDTO } from "./movieTheater.model";
 import MovieTheaterForm from "./MovieTheaterForm";
@@ -14,7 +14,7 @@ export default function CreateMovieTheater()
     {
         try
         {
-            await axios.post(urlMovieTheater, movieTheater);
+            await axios.post(urlMovieTheaters, movieTheater);
             history.push("/movietheaters");
         } catch (error: any)
         {
