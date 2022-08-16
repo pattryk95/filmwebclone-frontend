@@ -61,7 +61,7 @@ export default function TypeAheadActors(props: typeAheadActorsProps)
                     }
                 }}
                 options={actors}
-                labelKey={actor => actor.name}
+                labelKey={actor => `${actor.firstName} ${actor.middleName} ${actor.lastName}`}
                 filterBy={() => true}
                 isLoading={isLoading}
                 onSearch={handleSearch}
@@ -78,7 +78,7 @@ export default function TypeAheadActors(props: typeAheadActorsProps)
                                 width: '64px'
                             }}
                         />
-                        <span>{actor.name}</span>
+                        <span>{`${actor.firstName} ${actor.middleName ?? ""} ${actor.lastName}`}</span>
                     </>
                 )}
             />

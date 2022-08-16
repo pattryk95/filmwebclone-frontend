@@ -13,6 +13,7 @@ import { genreDTO } from "../genres/genres.model";
 import { movieTheaterDTO } from "../movietheaters/movieTheater.model";
 import TypeAheadActors from "../forms/TypeAheadActors";
 import { actorMovieDTO } from "../actors/actors.model";
+import MarkdownField from "../forms/MarkdownField";
 
 export default function MovieForm(props: movieFormProps)
 {
@@ -36,8 +37,8 @@ export default function MovieForm(props: movieFormProps)
       initialValues={props.model}
       onSubmit={(values, actions) =>
       {
-        values.genresIds = selectedGenres.map(item => item.key);
-        values.movieTheatersIds = selectedMovieTheaters.map(item => item.key);
+        values.genresId = selectedGenres.map(item => item.key);
+        values.movieTheatersId = selectedMovieTheaters.map(item => item.key);
         values.actors = selectedActors;
         props.onSubmit(values, actions)
       }
@@ -59,6 +60,8 @@ export default function MovieForm(props: movieFormProps)
             field="poster"
             imageURL={props.model.posterURL}
           />
+
+          <MarkdownField displayName="Summary" field="summary" />
 
           <MultipleSelector
             displayName="Genres"
@@ -94,7 +97,7 @@ export default function MovieForm(props: movieFormProps)
             }}
             listUI={(actor: actorMovieDTO) =>
               <>
-                {actor.name} / <input
+                {actor.firstName + " " + actor.middleName + " " + actor.lastName} / <input
                   placeholder="Character"
                   type="text"
                   value={actor.character}

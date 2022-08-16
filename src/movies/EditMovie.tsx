@@ -15,7 +15,7 @@ export default function EditMovie()
     [{ id: 1, name: 'Warsaw' }]
 
   const selectedActors: actorMovieDTO[] = [{
-    id: 1, name: 'Ewan McGregor', character: 'Obi-Wan Kenobi', picture: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQIIUCug0cluUJPxTvs2BjRSWXL5civuHUqbflF1cxc5vx47ZHS'
+    id: 1, firstName: 'Ewan', lastName: 'McGregor', character: 'Obi-Wan Kenobi', picture: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQIIUCug0cluUJPxTvs2BjRSWXL5civuHUqbflF1cxc5vx47ZHS'
   }]
   return (
     <>
