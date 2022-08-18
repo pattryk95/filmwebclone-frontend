@@ -1,4 +1,4 @@
-import { MapContainer, Marker, TileLayer, useMapEvent } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMapEvent } from "react-leaflet";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -14,7 +14,8 @@ let defaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = defaultIcon;
 
-export default function Map(props: mapProps) {
+export default function Map(props: mapProps)
+{
   const [coordinates, setCoordinates] = useState<coordinateDTO[]>(props.coordinates);
   return (
     <MapContainer
@@ -26,31 +27,45 @@ export default function Map(props: mapProps) {
         attribution="React Movies"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <MapClick
-        setCooirdinates={(coordinates) => {
-          setCoordinates([coordinates]);
-          props.handleMapClick(coordinates)
-        }}
-      />
+      {props.readOnly ? null :
+        <MapClick
+          setCooirdinates={(coordinates) =>
+          {
+            setCoordinates([coordinates]);
+            props.handleMapClick(coordinates)
+          }}
+        />
+      }
       {coordinates.map((coordinate, index) => (
-        <Marker key={index} position={[coordinate.lat, coordinate.lng]} />
+        <Marker key={index} position={[coordinate.lat, coordinate.lng]}>
+          {coordinate.name ?
+            <Popup>{coordinate.name}</Popup>
+            :
+            null}
+        </Marker>
       ))}
     </MapContainer>
   );
 }
 
-interface mapProps {
+interface mapProps
+{
   height: string;
   coordinates: coordinateDTO[];
-  handleMapClick(coordinates: coordinateDTO): void
+  handleMapClick(coordinates: coordinateDTO): void,
+  readOnly: boolean
 }
 
 Map.defaultProps = {
   height: "500px",
+  handleMapClick: () => { },
+  readOnly: false
 };
 
-function MapClick(props: mapClickProps) {
-  useMapEvent("click", (eventArgs) => {
+function MapClick(props: mapClickProps)
+{
+  useMapEvent("click", (eventArgs) =>
+  {
     props.setCooirdinates({
       lat: eventArgs.latlng.lat,
       lng: eventArgs.latlng.lng,
@@ -59,6 +74,7 @@ function MapClick(props: mapClickProps) {
   return null;
 }
 
-interface mapClickProps {
+interface mapClickProps
+{
   setCooirdinates(coordinates: coordinateDTO): void;
 }

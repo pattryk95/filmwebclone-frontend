@@ -1,9 +1,12 @@
 import axios, { AxiosResponse } from "axios"
 import { useEffect, useState } from "react"
+import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom"
 import { urlMovies } from "../endpoints";
+import coordinateDTO from "../utils/coordinates.model";
 import Loading from "../utils/Loading";
 import { movieDTO } from "./movies.model";
+import Map from "../utils/Map"
 
 export default function MovieDetails()
 {
@@ -18,6 +21,20 @@ export default function MovieDetails()
                 setMovie(response.data);
             })
     }, [id])
+
+    function transformCoordinates(): coordinateDTO[]
+    {
+        if (movie?.movieTheaters)
+        {
+            const coordinates = movie.movieTheaters.map(movieTheater =>
+            {
+                return { lat: movieTheater.latitude, lng: movieTheater.longitude, name: movieTheater.name } as coordinateDTO
+            });
+            return coordinates;
+        }
+
+        return [];
+    }
 
     function generateEmbeddedVideoURL(trailer: string): string
     {
@@ -65,6 +82,38 @@ export default function MovieDetails()
                     </iframe>
                 </div> : null}
             </div>
+            {movie.summary ? <div
+                style={{ marginTop: '1rem' }}>
+
+                <h3>Summary</h3>
+                <div>
+                    <ReactMarkdown>{movie.summary}</ReactMarkdown>
+                </div>
+            </div> : null
+            }
+            {movie.actors && movie.actors.length > 0 ? <div style={{ marginTop: '1rem' }}>
+                <h3>Actors</h3>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {movie.actors?.map(actor =>
+                        <div key={actor.id} style={{ marginBottom: '2px' }}>
+                            <img src={actor.picture} alt="pic"
+                                style={{ width: '50px', verticalAlign: 'middle' }}
+                            />
+                            <span style={{ display: 'inline-block', width: '200px', marginLeft: '1rem' }}>{actor.firstName} {actor.middleName ?? ""} {actor.lastName}</span>
+                            <span style={{ display: 'inline-block', width: '45px' }}>...</span>
+                            <span>{actor.character}</span>
+                        </div>
+                    )}
+                </div>
+            </div> : null}
+            {movie.movieTheaters && movie.movieTheaters.length > 0
+                ?
+                <div>
+                    <h2>Showing on</h2>
+                    <Map coordinates={transformCoordinates()} readOnly={true} />
+                </div>
+                : null
+            }
         </div > : <Loading />
     )
 }
