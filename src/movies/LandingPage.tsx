@@ -15,6 +15,7 @@ export default function LandingPage()
       setMovies(response.data);
     })
   }, []);
+
   return (
     <>
       <h3>In Theaters</h3>

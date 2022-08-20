@@ -97,7 +97,7 @@ export default function MovieForm(props: movieFormProps)
             }}
             listUI={(actor: actorMovieDTO) =>
               <>
-                {actor.firstName + " " + actor.middleName + " " + actor.lastName} / <input
+                {actor.firstName} {actor.middleName ?? ""} {actor.lastName} / <input
                   placeholder="Character"
                   type="text"
                   value={actor.character}

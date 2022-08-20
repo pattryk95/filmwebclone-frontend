@@ -1,39 +1,72 @@
-import { actorMovieDTO } from "../actors/actors.model";
-import { genreDTO } from "../genres/genres.model";
-import { movieTheaterDTO } from "../movietheaters/movieTheater.model";
+import axios, { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { urlMovies } from "../endpoints";
+import DisplayErrors from "../utils/DisplayErrors";
+import { convertMovieToFormData } from "../utils/formDataUtils";
+import Loading from "../utils/Loading";
 import MovieForm from "./MovieForm";
+import { movieCreationDTO, moviePutGetDTO } from "./movies.model";
 
 export default function EditMovie()
 {
-  const nonSelectedGenres: genreDTO[] = [{ id: 2, name: 'Drama' }]
-  const selectedGenres: genreDTO[] = [{ id: 1, name: 'Comedy' }]
+  const { id }: any = useParams();
+  const [movie, setMovie] = useState<movieCreationDTO>();
+  const [moviePutGet, setMoviePutGet] = useState<moviePutGetDTO>();
+  const history = useHistory();
+  const [errors, setErrors] = useState<string[]>([])
 
-  const nonSelectedMovieTheaters: movieTheaterDTO[] =
-    [{ id: 2, name: 'Legionowo' }]
+  useEffect(() =>
+  {
+    axios.get(`${urlMovies}/PutGet/${id}`)
+      .then((response: AxiosResponse<moviePutGetDTO>) =>
+      {
+        const model: movieCreationDTO = {
+          title: response.data.movie.title,
+          inTheaters: response.data.movie.inTheaters,
+          trailer: response.data.movie.trailer,
+          posterURL: response.data.movie.poster,
+          summary: response.data.movie.summary,
+          releaseDate: new Date(response.data.movie.releaseDate)
+        };
+        setMovie(model);
+        setMoviePutGet(response.data);
+      })
+  }, [id])
 
-  const selectedMovieTheaters: movieTheaterDTO[] =
-    [{ id: 1, name: 'Warsaw' }]
+  async function edit(movieToEdit: movieCreationDTO)
+  {
+    try
+    {
+      const formData = convertMovieToFormData(movieToEdit);
+      await axios({
+        method: 'put',
+        url: `${urlMovies}/${id}`,
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      history.push(`/movie/${id}`);
+    } catch (error: any)
+    {
+      setErrors(error.response.data)
+    }
+  }
 
-  const selectedActors: actorMovieDTO[] = [{
-    id: 1, firstName: 'Ewan', lastName: 'McGregor', character: 'Obi-Wan Kenobi', picture: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQIIUCug0cluUJPxTvs2BjRSWXL5civuHUqbflF1cxc5vx47ZHS'
-  }]
   return (
     <>
       <h3>Edit Movie</h3>
-      <MovieForm
-        model={{
-          title: "Star Wars Rebels",
-          inTheaters: false,
-          trailer: "url",
-          releaseDate: new Date("2014-08-11"),
-        }}
-        onSubmit={(values) => console.log(values)}
-        selectedGenres={selectedGenres}
-        nonSelectedGenres={nonSelectedGenres}
-        selectedMovieTheaters={selectedMovieTheaters}
-        nonSelectedMovieTheaters={nonSelectedMovieTheaters}
-        selectedActors={selectedActors}
-      />
+      <DisplayErrors errors={errors} />
+      {movie && moviePutGet ?
+        <MovieForm model={movie}
+          onSubmit={async values => await edit(values)}
+          selectedGenres={moviePutGet.selectedGenres}
+          nonSelectedGenres={moviePutGet.nonSelectedGenres}
+          selectedMovieTheaters={moviePutGet.selectedMovieTheaters}
+          nonSelectedMovieTheaters={moviePutGet.nonSelectedMovieTheaters}
+          selectedActors={moviePutGet.actors}
+        />
+        : <Loading />
+      }
     </>
   );
 }

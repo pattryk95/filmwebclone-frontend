@@ -1,14 +1,14 @@
 import GenericList from "../utils/GenericList";
-import Loading from "../utils/Loading";
 import IndividualMovie from "./IndividualMovie";
 import { movieDTO } from "./movies.model";
 import css from "./MoviesList.module.css";
 
-export default function MoviesList(props: moviesListProps) {
+export default function MoviesList(props: moviesListProps)
+{
   return (
-    <GenericList 
-    loadingUI={<>Loading movies...</>}
-    list={props.movies}>
+    <GenericList
+      loadingUI={<>Loading movies...</>}
+      list={props.movies}>
       <div className={css.div}>
         {props.movies?.map((movie) => (
           <IndividualMovie {...movie} key={movie.id} />
@@ -18,6 +18,7 @@ export default function MoviesList(props: moviesListProps) {
   );
 }
 
-interface moviesListProps {
+interface moviesListProps
+{
   movies?: movieDTO[];
 }

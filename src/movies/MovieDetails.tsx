@@ -12,6 +12,7 @@ export default function MovieDetails()
 {
     const { id }: any = useParams();
     const [movie, setMovie] = useState<movieDTO>();
+
     useEffect(() =>
     {
         axios.get(`${urlMovies}/${id}`)
@@ -51,6 +52,7 @@ export default function MovieDetails()
 
         return `https://www.youtube.com/embed/${videoId}`;
     }
+
     return (
         movie ? <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
@@ -114,6 +116,7 @@ export default function MovieDetails()
                 </div>
                 : null
             }
-        </div > : <Loading />
+        </div >
+            : <Loading />
     )
 }
