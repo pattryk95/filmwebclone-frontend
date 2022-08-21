@@ -51,7 +51,6 @@ export default function EditMovie()
       setErrors(error.response.data)
     }
   }
-
   return (
     <>
       <h3>Edit Movie</h3>
