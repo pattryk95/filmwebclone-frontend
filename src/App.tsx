@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import { useState } from "react";
 import "./App.css";
-import IndividualMovie from "./movies/IndividualMovie";
-import { landingPageDTO, movieDTO } from "./movies/movies.model";
-import MoviesList from "./movies/MoviesList";
-import Button from "./utils/Button";
 import Menu from "./Menu";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import IndexGenres from "./genres/IndexGenres";
-import LandingPage from "./movies/LandingPage";
 import routes from "./route-config";
 import configureValidations from "./validation";
 import { claim } from "./auth/auth.model";
@@ -18,8 +11,15 @@ configureValidations();
 
 function App()
 {
-  const [claims, setClaims] = useState<claim[]>([{ name: 'email', value: 'patryk@gmail.com' }]);
+  const [claims, setClaims] = useState<claim[]>([
+    { name: 'email', value: 'patryk@gmail.com' },
+    // { name: 'role', value: 'admin' }
+  ]);
 
+  function isAdmin()
+  {
+    return claims.findIndex(claim => claim.name === 'role' && claim.value === 'admin') > -1;
+  }
 
   return (
     <>
@@ -30,7 +30,11 @@ function App()
             <Switch>
               {routes.map((route) => (
                 <Route key={route.path} path={route.path} exact={route.exact}>
-                  <route.component />
+                  {route.isAdmin && !isAdmin() ? <>
+                    You are not allowed to see this page
+                  </> :
+                    <route.component />
+                  }
                 </Route>
               ))}
             </Switch>
