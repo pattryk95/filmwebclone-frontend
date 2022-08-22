@@ -32,6 +32,7 @@ export default function LandingPage()
       <Authorized
         authorized={<>You are authorized</>}
         notAuthorized={<>You are not authorized</>}
+        role="admin"
       />
       <h3>In Theaters</h3>
       <MoviesList movies={movies.inTheaters} />

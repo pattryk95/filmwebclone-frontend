@@ -11,29 +11,36 @@ import IndexGenres from "./genres/IndexGenres";
 import LandingPage from "./movies/LandingPage";
 import routes from "./route-config";
 import configureValidations from "./validation";
+import { claim } from "./auth/auth.model";
+import AuthenticationContext from "./auth/AuthenticationContext";
 
 configureValidations();
 
 function App()
 {
+  const [claims, setClaims] = useState<claim[]>([{ name: 'email', value: 'patryk@gmail.com' }]);
+
+
   return (
     <>
       <BrowserRouter>
-        <Menu />
-        <div className="container">
-          <Switch>
-            {routes.map((route) => (
-              <Route key={route.path} path={route.path} exact={route.exact}>
-                <route.component />
-              </Route>
-            ))}
-          </Switch>
-        </div>
-        <footer className="bd-footer py-5 mt-5 bg-light">
+        <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
+          <Menu />
           <div className="container">
-            FilmwebClone {new Date().getUTCFullYear().toString()}
+            <Switch>
+              {routes.map((route) => (
+                <Route key={route.path} path={route.path} exact={route.exact}>
+                  <route.component />
+                </Route>
+              ))}
+            </Switch>
           </div>
-        </footer>
+          <footer className="bd-footer py-5 mt-5 bg-light">
+            <div className="container">
+              FilmwebClone {new Date().getUTCFullYear().toString()}
+            </div>
+          </footer>
+        </AuthenticationContext.Provider>
       </BrowserRouter>
     </>
   );
