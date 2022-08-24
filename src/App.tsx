@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Menu from "./Menu";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -6,15 +6,18 @@ import routes from "./route-config";
 import configureValidations from "./validation";
 import { claim } from "./auth/auth.model";
 import AuthenticationContext from "./auth/AuthenticationContext";
+import { getClaims } from "./auth/handleJWT";
 
 configureValidations();
 
 function App()
 {
-  const [claims, setClaims] = useState<claim[]>([
-    // { name: 'email', value: 'patryk@gmail.com' },
-    // { name: 'role', value: 'admin' }
-  ]);
+  const [claims, setClaims] = useState<claim[]>([]);
+
+  useEffect(() =>
+  {
+    setClaims(getClaims());
+  }, [])
 
   function isAdmin()
   {

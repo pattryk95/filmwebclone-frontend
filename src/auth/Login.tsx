@@ -1,13 +1,18 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { urlAccounts } from "../endpoints";
 import DisplayErrors from "../utils/DisplayErrors";
 import { authenticationResponse, userCredentials } from "./auth.model";
+import AuthenticationContext from "./AuthenticationContext";
 import AuthForm from "./AuthForm";
+import { getClaims, saveToken } from "./handleJWT"
 
 export default function Login()
 {
     const [errors, setErrors] = useState<string[]>([]);
+    const { update } = useContext(AuthenticationContext);
+    const history = useHistory();
 
     async function login(credentials: userCredentials)
     {
@@ -15,7 +20,9 @@ export default function Login()
         {
             setErrors([]);
             const response = await axios.post<authenticationResponse>(`${urlAccounts}/login`, credentials);
-            console.log(response.data);
+            saveToken(response.data);
+            update(getClaims());
+            history.push("/");
         }
         catch (error: any)
         {
