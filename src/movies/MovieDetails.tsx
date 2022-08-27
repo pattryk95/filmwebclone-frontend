@@ -57,10 +57,13 @@ export default function MovieDetails()
 
     function handleRate(rate: number)
     {
-        axios.post(urlRatings, { rating: rate, movieId: id }).then(() =>
-        {
-            Swal.fire({ icon: 'success', title: 'Rating received' })
-        })
+        console.log('! rate');
+        console.log(urlRatings, rate, id);
+        axios.post(urlRatings, { rate: rate, movieId: id })
+            .then(() =>
+            {
+                Swal.fire({ icon: 'success', title: 'Rating received' })
+            })
     }
 
     return (
@@ -73,7 +76,7 @@ export default function MovieDetails()
                 >{genre.name}
                 </Link>
             )} | {movie.releaseDate.toDateString()}
-            | Yor vote: <Ratings maximumValue={5} selectedValue={0} onChange={handleRate} />
+            | Yor vote: <Ratings maximumValue={5} selectedValue={movie.userVote} onChange={handleRate} /> | Average Vote: {movie.averageVote}
             <div style={{ display: 'flex', marginTop: '1rem' }}>
                 <span style={{ display: 'inline-block', marginRight: '1rem' }}>
                     <img

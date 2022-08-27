@@ -7,8 +7,10 @@ import configureValidations from "./validation";
 import { claim } from "./auth/auth.model";
 import AuthenticationContext from "./auth/AuthenticationContext";
 import { getClaims } from "./auth/handleJWT";
+import configureInterceptor from "./utils/httpInterceptors";
 
 configureValidations();
+configureInterceptor();
 
 function App()
 {

@@ -5,13 +5,13 @@ export default function MultipleSelector(props: multipleSelectorProps)
     function select(item: multipleSelectorModel)
     {
         const selected = [...props.selected, item];
-        const nonSelected = props.nonSelected.filter((value) => value != item);
+        const nonSelected = props.nonSelected.filter((value) => value !== item);
         props.onChange(selected, nonSelected);
     }
     function deselect(item: multipleSelectorModel)
     {
         const nonSelected = [...props.nonSelected, item];
-        const selected = props.selected.filter((value) => value != item);
+        const selected = props.selected.filter((value) => value !== item);
         props.onChange(selected, nonSelected);
     }
 
