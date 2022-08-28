@@ -49,6 +49,7 @@ const routes = [
 
   { path: "/register", component: Register },
   { path: "/login", component: Login },
+  { path: "/movies/create", component: CreateMovie, isAdmin: true },
 
   { path: "/", component: LandingPage, exact: true },
   { path: "*", component: RedirectToLandingPage },
